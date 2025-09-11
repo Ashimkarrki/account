@@ -6,7 +6,8 @@
 
 Request
 
-```{
+```
+{
 
   "UserName": "ashimkarki",
   "Amt": 1000,
