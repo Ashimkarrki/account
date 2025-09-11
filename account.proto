@@ -1,0 +1,92 @@
+syntax="proto3";
+package account_proto;
+option go_package="./account_proto";
+
+
+service AccountService{
+    rpc CreateAccount (AccountRequest) returns (AccountResponse){};
+    rpc GetAllAccount (ReadAllAccountRequest) returns (ReadAllAccountResponse){};
+    rpc DeleteAccount (DeleteAccountRequest) returns (DeleteAccountResponse){};
+    rpc UpdateAccount (UpdateAccountRequest) returns (UpdateAccountResponse){};
+
+    rpc ReadAccount (ReadAccountRequest) returns (ReadAccountResponse){};
+    rpc ReadTransaction (ReadTransactionRequest) returns (ReadTransactionResponse){};
+    rpc CreateTransaction (TransactionRequest) returns (TransactionResponse){};
+    rpc Login (LoginRequest) returns (LoginResponse){};
+
+    // rpc
+
+}
+message LoginRequest{
+    string UserName=1;
+    string Password=2;
+}
+message LoginResponse{
+    string Token=1;
+    string Msg=2;
+}
+
+
+message UpdateAccountRequest{
+    int64 Acc_id=1;
+    string userName  =2;
+    int64 Amt =3;
+}
+message UpdateAccountResponse{
+     int64 Acc_id=1;
+    string userName  =2;
+    int64 Amt =3;
+}
+
+message DeleteAccountRequest{
+        int64 Acc_id=1;
+
+}
+
+message DeleteAccountResponse{
+    string msg=1;
+}
+message ReadAllAccountRequest{
+
+}
+message ReadAllAccountResponse{
+    repeated  ReadAccountResponse Accounts =1;
+}
+message ReadTransactionRequest{
+    int64 Trans_id=1;
+}
+message ReadTransactionResponse{
+    int64 From =1;
+    int64 To =2;
+    int64 Amt=3;
+    string Remark=4;
+}
+
+
+message ReadAccountRequest{
+    int64 Acc_id=1;
+}
+
+message ReadAccountResponse{
+    int64 Acc_id=1;
+    string userName  =2;
+    int64 Amt =3;
+}
+
+message AccountRequest{
+    string UserName  =1;
+    int64 Amt =2;
+    string Password = 3;
+}
+message AccountResponse{
+    int64 Acc_id =1;
+}
+message TransactionResponse{
+    int64 Trans_id =1;
+}
+message TransactionRequest{
+    int64 From =1;
+    int64 To =2;
+    int64 Amt=3;
+    string Remark=4;
+}
