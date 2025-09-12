@@ -19,14 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AccountService_CreateAccount_FullMethodName     = "/account_proto.AccountService/CreateAccount"
-	AccountService_GetAllAccount_FullMethodName     = "/account_proto.AccountService/GetAllAccount"
-	AccountService_DeleteAccount_FullMethodName     = "/account_proto.AccountService/DeleteAccount"
-	AccountService_UpdateAccount_FullMethodName     = "/account_proto.AccountService/UpdateAccount"
-	AccountService_ReadAccount_FullMethodName       = "/account_proto.AccountService/ReadAccount"
-	AccountService_ReadTransaction_FullMethodName   = "/account_proto.AccountService/ReadTransaction"
-	AccountService_CreateTransaction_FullMethodName = "/account_proto.AccountService/CreateTransaction"
-	AccountService_Login_FullMethodName             = "/account_proto.AccountService/Login"
+	AccountService_CreateAccount_FullMethodName = "/account_proto.AccountService/CreateAccount"
+	AccountService_GetAllAccount_FullMethodName = "/account_proto.AccountService/GetAllAccount"
+	AccountService_DeleteAccount_FullMethodName = "/account_proto.AccountService/DeleteAccount"
+	AccountService_UpdateAccount_FullMethodName = "/account_proto.AccountService/UpdateAccount"
+	AccountService_ReadAccount_FullMethodName   = "/account_proto.AccountService/ReadAccount"
+	AccountService_Login_FullMethodName         = "/account_proto.AccountService/Login"
 )
 
 // AccountServiceClient is the client API for AccountService service.
@@ -38,8 +36,6 @@ type AccountServiceClient interface {
 	DeleteAccount(ctx context.Context, in *DeleteAccountRequest, opts ...grpc.CallOption) (*DeleteAccountResponse, error)
 	UpdateAccount(ctx context.Context, in *UpdateAccountRequest, opts ...grpc.CallOption) (*UpdateAccountResponse, error)
 	ReadAccount(ctx context.Context, in *ReadAccountRequest, opts ...grpc.CallOption) (*ReadAccountResponse, error)
-	ReadTransaction(ctx context.Context, in *ReadTransactionRequest, opts ...grpc.CallOption) (*ReadTransactionResponse, error)
-	CreateTransaction(ctx context.Context, in *TransactionRequest, opts ...grpc.CallOption) (*TransactionResponse, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 }
 
@@ -101,26 +97,6 @@ func (c *accountServiceClient) ReadAccount(ctx context.Context, in *ReadAccountR
 	return out, nil
 }
 
-func (c *accountServiceClient) ReadTransaction(ctx context.Context, in *ReadTransactionRequest, opts ...grpc.CallOption) (*ReadTransactionResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ReadTransactionResponse)
-	err := c.cc.Invoke(ctx, AccountService_ReadTransaction_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountServiceClient) CreateTransaction(ctx context.Context, in *TransactionRequest, opts ...grpc.CallOption) (*TransactionResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(TransactionResponse)
-	err := c.cc.Invoke(ctx, AccountService_CreateTransaction_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *accountServiceClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(LoginResponse)
@@ -140,8 +116,6 @@ type AccountServiceServer interface {
 	DeleteAccount(context.Context, *DeleteAccountRequest) (*DeleteAccountResponse, error)
 	UpdateAccount(context.Context, *UpdateAccountRequest) (*UpdateAccountResponse, error)
 	ReadAccount(context.Context, *ReadAccountRequest) (*ReadAccountResponse, error)
-	ReadTransaction(context.Context, *ReadTransactionRequest) (*ReadTransactionResponse, error)
-	CreateTransaction(context.Context, *TransactionRequest) (*TransactionResponse, error)
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }
@@ -167,12 +141,6 @@ func (UnimplementedAccountServiceServer) UpdateAccount(context.Context, *UpdateA
 }
 func (UnimplementedAccountServiceServer) ReadAccount(context.Context, *ReadAccountRequest) (*ReadAccountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ReadAccount not implemented")
-}
-func (UnimplementedAccountServiceServer) ReadTransaction(context.Context, *ReadTransactionRequest) (*ReadTransactionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ReadTransaction not implemented")
-}
-func (UnimplementedAccountServiceServer) CreateTransaction(context.Context, *TransactionRequest) (*TransactionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateTransaction not implemented")
 }
 func (UnimplementedAccountServiceServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
@@ -288,42 +256,6 @@ func _AccountService_ReadAccount_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AccountService_ReadTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReadTransactionRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServiceServer).ReadTransaction(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AccountService_ReadTransaction_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServiceServer).ReadTransaction(ctx, req.(*ReadTransactionRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AccountService_CreateTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TransactionRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServiceServer).CreateTransaction(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AccountService_CreateTransaction_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServiceServer).CreateTransaction(ctx, req.(*TransactionRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _AccountService_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(LoginRequest)
 	if err := dec(in); err != nil {
@@ -368,14 +300,6 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ReadAccount",
 			Handler:    _AccountService_ReadAccount_Handler,
-		},
-		{
-			MethodName: "ReadTransaction",
-			Handler:    _AccountService_ReadTransaction_Handler,
-		},
-		{
-			MethodName: "CreateTransaction",
-			Handler:    _AccountService_CreateTransaction_Handler,
 		},
 		{
 			MethodName: "Login",

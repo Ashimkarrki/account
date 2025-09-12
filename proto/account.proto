@@ -1,6 +1,6 @@
 syntax="proto3";
 package account_proto;
-option go_package="./account_proto";
+option go_package="../account_proto";
 
 
 service AccountService{
@@ -10,11 +10,8 @@ service AccountService{
     rpc UpdateAccount (UpdateAccountRequest) returns (UpdateAccountResponse){};
 
     rpc ReadAccount (ReadAccountRequest) returns (ReadAccountResponse){};
-    rpc ReadTransaction (ReadTransactionRequest) returns (ReadTransactionResponse){};
-    rpc CreateTransaction (TransactionRequest) returns (TransactionResponse){};
+    
     rpc Login (LoginRequest) returns (LoginResponse){};
-
-    // rpc
 
 }
 message LoginRequest{
@@ -52,15 +49,7 @@ message ReadAllAccountRequest{
 message ReadAllAccountResponse{
     repeated  ReadAccountResponse Accounts =1;
 }
-message ReadTransactionRequest{
-    int64 Trans_id=1;
-}
-message ReadTransactionResponse{
-    int64 From =1;
-    int64 To =2;
-    int64 Amt=3;
-    string Remark=4;
-}
+
 
 
 message ReadAccountRequest{
@@ -80,13 +69,4 @@ message AccountRequest{
 }
 message AccountResponse{
     int64 Acc_id =1;
-}
-message TransactionResponse{
-    int64 Trans_id =1;
-}
-message TransactionRequest{
-    int64 From =1;
-    int64 To =2;
-    int64 Amt=3;
-    string Remark=4;
 }

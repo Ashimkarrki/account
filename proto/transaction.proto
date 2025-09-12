@@ -1,0 +1,27 @@
+syntax="proto3";
+package transaction_proto;
+option go_package="../transaction_proto";
+
+
+service TransactionService{
+    rpc ReadTransaction (ReadTransactionRequest) returns (ReadTransactionResponse){};
+    rpc CreateTransaction (TransactionRequest) returns (TransactionResponse){};
+}
+message ReadTransactionRequest{
+    int64 Trans_id=1;
+}
+message ReadTransactionResponse{
+    int64 From =1;
+    int64 To =2;
+    int64 Amt=3;
+    string Remark=4;
+}
+message TransactionResponse{
+    int64 Trans_id =1;
+}
+message TransactionRequest{
+    int64 From =1;
+    int64 To =2;
+    int64 Amt=3;
+    string Remark=4;
+}
