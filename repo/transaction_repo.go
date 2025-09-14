@@ -5,19 +5,24 @@ import (
 
 	"gorm.io/gorm"
 )
-type TransactionRepo struct{
+
+type TransactionRepo interface{
+	Create(newAcc *model.Transaction ) error
+	Read(newAcc *model.Transaction ,id int64) error
+}
+type transactionRepo struct{
 		db *gorm.DB
 }
-func NewTransactionRepo(db *gorm.DB) (TransactionRepo){
-	return  TransactionRepo{db:db}
+func NewTransactionRepo(db *gorm.DB) (transactionRepo){
+	return  transactionRepo{db:db}
 }
 
-func (t *TransactionRepo) Create (newAcc *model.Account ) error  {
- err:=t.db.Create(&newAcc).Error
+func (t *transactionRepo) Create(newTrans *model.Transaction ) error  {
+ err:=t.db.Create(&newTrans).Error
  return  err
 }
-func (t *TransactionRepo) Read (newAcc *model.Account ,id int64) error{
-	err:=t.db.First(&newAcc,id).Error
+func (t *transactionRepo) Read(newTrans *model.Transaction ,id int64) error{
+	err:=t.db.First(&newTrans,id).Error
 	return err
 
 

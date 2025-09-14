@@ -3,6 +3,7 @@ package auth
 import (
 	"context"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -41,7 +42,8 @@ func JwtInterceptor(
 }
 
 func GenerateJWT(accID int64)(string,error){
-	 jwtkey := []byte("supersecretkey")
+	 jwtkey := []byte(os.Getenv("SECRET"))
+
 
 	claims:=jwt.MapClaims{
 		"Acc_id":accID,
@@ -56,7 +58,7 @@ func GenerateJWT(accID int64)(string,error){
 	return signed,nil
 }
 func ValidateJWT(tokenString string) (*jwt.Token, error) {
-	 jwtkey := []byte("supersecretkey")
+	 jwtkey := []byte(os.Getenv("SECRET"))
 
     return jwt.Parse(tokenString, func(token *jwt.Token) (any, error) {
         if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
